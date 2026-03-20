@@ -1,0 +1,560 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
+    user-select: none;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: transparent;
+    color: white;
+}
+
+#space-background {
+    position: fixed;
+    top: -5%;
+    left: -5%;
+    width: 110%;
+    height: 110%;
+    z-index: -1;
+    background-color: #0b0510;
+    background-image: 
+        radial-gradient(circle at 15% 50%, rgba(255, 255, 255, 0.8), transparent 2px),
+        radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.9), transparent 2px),
+        radial-gradient(circle at 50% 80%, rgba(255, 255, 255, 0.7), transparent 2px),
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.6), transparent 1px),
+        radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.5), transparent 1px),
+        radial-gradient(circle at center, #1b0a3a 0%, #000000 100%);
+    background-size: 200px 200px, 300px 300px, 400px 400px, 150px 150px, 250px 250px, 100% 100%;
+    background-position: 0 0, 50px 50px, 100px 100px, 20px 20px, 80px 80px, center;
+    opacity: 0.95;
+    transition: transform 0.1s ease-out;
+}
+
+#top-right-bar {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 15px;
+    z-index: 100;
+}
+
+#premium-button, #leaderboard-button, #achievements-button {
+    background: linear-gradient(45deg, #ffbc00, #ff5722);
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing: 1px;
+}
+
+#leaderboard-button {
+    background: linear-gradient(45deg, #00f2fe, #4facfe);
+    box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+}
+
+#achievements-button {
+    background: linear-gradient(45deg, #38ef7d, #11998e);
+    box-shadow: 0 4px 15px rgba(17, 153, 142, 0.4);
+}
+
+#premium-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(255, 87, 34, 0.6);
+}
+
+#leaderboard-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(79, 172, 254, 0.6);
+}
+
+#achievements-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(17, 153, 142, 0.6);
+}
+
+#premium-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(255, 87, 34, 0.6);
+}
+
+#premium-modal, #leaderboard-modal, #achievements-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+#premium-modal.hidden, #leaderboard-modal.hidden, #achievements-modal.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal-content {
+    background: rgba(20, 15, 40, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    padding: 50px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 0 50px rgba(138, 43, 226, 0.4);
+    transform: translateY(0);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    max-width: 90%;
+}
+
+.leaderboard-content, .achievements-content {
+    width: 600px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#premium-modal.hidden .modal-content, #leaderboard-modal.hidden .modal-content, #achievements-modal.hidden .modal-content {
+    transform: translateY(-50px);
+}
+
+.modal-content h2 {
+    color: #ffbc00;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(255, 188, 0, 0.5);
+}
+
+.modal-content ul {
+    list-style: none;
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 1.5rem;
+}
+
+.modal-content li {
+    margin: 15px 0;
+    color: #eee;
+}
+
+.modal-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 12px 40px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.2s;
+    font-weight: bold;
+}
+
+.modal-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.get-premium-btn {
+    background: linear-gradient(45deg, #ffbc00, #ff5722);
+    border: none;
+    margin-top: 20px;
+    box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4);
+}
+
+#leaderboard-list, #achievements-list {
+    flex: 1;
+    overflow-y: auto;
+    text-align: left;
+    padding-right: 10px;
+    margin-bottom: 20px;
+}
+
+#leaderboard-list::-webkit-scrollbar, #achievements-list::-webkit-scrollbar {
+    width: 8px;
+}
+#leaderboard-list::-webkit-scrollbar-track, #achievements-list::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05); 
+    border-radius: 10px;
+}
+#leaderboard-list::-webkit-scrollbar-thumb, #achievements-list::-webkit-scrollbar-thumb {
+    background: rgba(0, 242, 254, 0.5); 
+    border-radius: 10px;
+}
+
+.lb-entry {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 20px;
+    margin-bottom: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    transition: transform 0.2s;
+}
+.lb-entry:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.02);
+}
+.lb-rank {
+    font-weight: 900;
+    color: #00f2fe;
+    width: 50px;
+}
+.lb-score {
+    font-family: monospace;
+    font-size: 1.2rem;
+    color: #ffbc00;
+}
+
+.discord-link {
+    display: inline-block;
+    margin-top: 50px;
+    background: #5865F2; /* Discord Blurple */
+    color: white;
+    text-decoration: none;
+    padding: 15px 40px;
+    border-radius: 30px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    box-shadow: 0 5px 20px rgba(88, 101, 242, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing: 1px;
+}
+
+.discord-link:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(88, 101, 242, 0.6);
+}
+
+.premium-lock {
+    background: rgba(20, 10, 30, 0.9);
+    padding: 40px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 87, 34, 0.3);
+}
+
+.premium-lock p {
+    font-size: 1.2rem;
+    color: #ccc;
+    margin-top: 10px;
+}
+
+/* Achievements Specific */
+.ach-entry {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    transition: all 0.3s;
+    opacity: 0.5; /* locked state */
+    filter: grayscale(1);
+}
+
+.ach-entry.unlocked {
+    opacity: 1;
+    filter: grayscale(0);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(56, 239, 125, 0.5);
+    box-shadow: 0 0 15px rgba(56, 239, 125, 0.2);
+}
+
+.ach-icon {
+    font-size: 2.5rem;
+    margin-right: 20px;
+}
+
+.ach-details h3 {
+    margin-bottom: 5px;
+    color: #fff;
+}
+
+.ach-details p {
+    color: #aaa;
+    font-size: 0.9rem;
+}
+
+.ach-entry.unlocked .ach-details h3 {
+    color: #38ef7d;
+}
+
+/* Toast Notifications */
+#toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.achievement-toast {
+    background: rgba(20, 20, 30, 0.95);
+    border-left: 5px solid #38ef7d;
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: white;
+    transform: translateX(120%);
+    animation: slideIn 0.5s forwards, slideOut 0.5s 4s forwards;
+}
+
+.toast-icon {
+    font-size: 2rem;
+}
+
+.toast-text h4 {
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: #38ef7d;
+    text-transform: uppercase;
+}
+
+.toast-text p {
+    font-weight: bold;
+}
+
+@keyframes slideIn {
+    to { transform: translateX(0); }
+}
+
+@keyframes slideOut {
+    to { transform: translateX(120%); }
+}
+
+.hidden {
+    display: none !important;
+}
+
+#app-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.screen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes titleShine {
+    to {
+        background-position: 200% center;
+    }
+}
+
+.glow-title {
+    font-size: 6rem;
+    font-weight: 900;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    background: linear-gradient(to right, #b829ea, #5e29ea, #297eea, #b829ea);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 25px rgba(184, 41, 234, 0.7));
+    margin-bottom: 5px;
+    animation: titleShine 4s linear infinite;
+}
+
+.subtitle {
+    font-size: 1.8rem;
+    color: #a0a0c0;
+    letter-spacing: 4px;
+    margin-bottom: 60px;
+    text-transform: uppercase;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(160, 160, 192, 0.5);
+}
+
+.game-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    max-width: 900px;
+    width: 90%;
+}
+
+.game-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 50px 20px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.game-card h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.game-card:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0, 242, 254, 0.3);
+    border-color: rgba(0, 242, 254, 0.5);
+}
+
+/* Common Game Styles */
+.game-container {
+    position: relative;
+    background: transparent;
+    width: 100%;
+    height: 100%;
+}
+
+.back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(20, 20, 30, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 10px 25px;
+    border-radius: 30px;
+    cursor: pointer;
+    z-index: 1000;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: all 0.2s;
+    backdrop-filter: blur(5px);
+}
+
+.back-btn:hover {
+    background: rgba(40, 40, 60, 0.9);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+/* Specific Game Styles will go here */
+
+/* Premium PayPal Button & Perks Styling */
+.paypal-btn {
+    background: linear-gradient(45deg, #003087, #009cde);
+    box-shadow: 0 5px 20px rgba(0, 156, 222, 0.4);
+    font-size: 1.3rem;
+    padding: 15px 40px;
+    margin-top: 20px;
+    animation: pulseGlowPaypal 2s infinite alternate;
+    width: 100%;
+}
+
+.paypal-btn:hover {
+    background: linear-gradient(45deg, #009cde, #003087);
+    box-shadow: 0 8px 30px rgba(0, 156, 222, 0.6);
+    transform: scale(1.05);
+}
+
+@keyframes pulseGlowPaypal {
+    from { box-shadow: 0 0 10px rgba(0, 156, 222, 0.4); }
+    to { box-shadow: 0 0 25px rgba(0, 156, 222, 0.8), 0 0 10px rgba(0, 48, 135, 0.8); }
+}
+
+.premium-content {
+    background: linear-gradient(135deg, rgba(20, 15, 40, 0.95), rgba(40, 10, 50, 0.95));
+    border: 2px solid rgba(255, 188, 0, 0.3);
+}
+
+.perks-list {
+    text-align: left !important;
+    padding: 0 20px;
+}
+
+.perks-list li {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 10px;
+    margin: 10px 0 !important;
+    transition: transform 0.2s, background 0.2s;
+    border-left: 4px solid #ffbc00;
+}
+
+.perks-list li:hover {
+    transform: translateX(10px);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 5px 15px rgba(255, 188, 0, 0.2);
+}
+
+
+.modal-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(15px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 500;
+}
+.modal-input {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: white;
+    font-size: 1.2rem;
+    outline: none;
+    transition: all 0.2s;
+}
+.modal-input:focus {
+    border-color: #00f2fe;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+@media (max-width: 768px) {
+    .game-grid {
+        grid-template-columns: 1fr;
+    }
+    .glow-title {
+        font-size: 3.5rem;
+    }
+    .modal-content {
+        padding: 30px;
+    }
+    .modal-content h2 {
+        font-size: 2rem;
+    }
+    .paypal-btn {
+        font-size: 1.1rem;
+        padding: 12px 20px;
+    }
+}
+

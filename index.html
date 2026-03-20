@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZYN HUB</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Three.js for Aim Trainer -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <div id="space-background"></div>
+
+    <div id="top-right-bar">
+        <div id="admin-button" class="hidden" style="background: linear-gradient(45deg, #ff0055, #aa0000); box-shadow: 0 4px 15px rgba(255, 0, 85, 0.4);">🛡 ADMIN PANEL</div>
+        <div id="achievements-button">🏅 ACHIEVEMENTS</div>
+        <div id="leaderboard-button">👑 LEADERBOARD</div>
+        <div id="premium-button">PREMIUM = 3$ monthly</div>
+        <div id="user-display" style="background: rgba(255,255,255,0.1); padding: 10px 20px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.2);">👤 Not Logged In</div>
+    </div>
+
+    <!-- Login/Signup Modal -->
+    <div id="login-modal" class="modal-bg">
+        <div class="modal-content login-content">
+            <h2>Welcome to ZYN HUB</h2>
+            <p style="margin-bottom: 20px; color: #ccc;">Please choose a unique username and password to track your scores and unlock premium.</p>
+            <input type="text" id="login-username" placeholder="Username" class="modal-input" autocomplete="off" />
+            <br>
+            <input type="password" id="login-password" placeholder="Password" class="modal-input" />
+            <br>
+            <p id="login-error" style="color: #ff3333; margin-top: 10px; height: 20px;"></p>
+            <button id="login-submit-btn" class="modal-btn" style="width: 100%; margin-top: 10px; background: linear-gradient(45deg, #00f2fe, #4facfe); border: none; font-weight: bold; color: white;">Login / Register</button>
+        </div>
+    </div>
+
+    <!-- Admin Panel Modal -->
+    <div id="admin-modal" class="hidden">
+        <div class="modal-content admin-content">
+            <h2>🛡 ADMIN PANEL</h2>
+            <p style="margin-bottom: 20px; color: #ccc;">Grant a user Premium access instantly.</p>
+            <input type="text" id="admin-target-user" placeholder="Target Username" class="modal-input" autocomplete="off" />
+            <br>
+            <p id="admin-msg" style="color: #38ef7d; margin-top: 10px; height: 20px;"></p>
+            <button id="admin-grant-btn" class="modal-btn" style="background: #38ef7d; border: none; color: black; font-weight: bold; margin-top: 10px; width: 100%;">Grant Premium</button>
+            <button id="close-admin" class="modal-btn" style="margin-top: 15px;">Close</button>
+        </div>
+    </div>
+
+    <div id="premium-modal" class="hidden">
+        <div class="modal-content premium-content">
+            <h2>💎 Premium Perks</h2>
+            <ul class="perks-list">
+                <li>✨ Ad-Free Experience</li>
+                <li>🎯 Save Your Highscores</li>
+                <li>👑 Global Leaderboard Access</li>
+                <li>🔥 Exclusive Name Colors</li>
+            </ul>
+            <button class="modal-btn get-premium-btn paypal-btn">Subscribe via PayPal - $3</button>
+            <br>
+            <button id="close-premium" class="modal-btn" style="margin-top: 15px;">Close</button>
+        </div>
+    </div>
+
+    <!-- Premium Leaderboard Modal -->
+    <div id="leaderboard-modal" class="hidden">
+        <div class="modal-content leaderboard-content">
+            <h2>🏆 Global Top 100</h2>
+            <div class="premium-lock hidden" id="leaderboard-lock">
+                <h3>💎 Premium Feature</h3>
+                <p>Unlock Leaderboards with a Premium Subscription to see where you rank!</p>
+                <button class="modal-btn get-premium-btn paypal-btn">Subscribe via PayPal - $3</button>
+            </div>
+            
+            <div id="leaderboard-list">
+                <!-- Generated dynamically via JS -->
+            </div>
+            
+            <button id="close-leaderboard" class="modal-btn" style="margin-top: 20px;">Close</button>
+        </div>
+    </div>
+
+    <!-- Achievements Modal -->
+    <div id="achievements-modal" class="hidden">
+        <div class="modal-content achievements-content">
+            <h2>🏅 Your Achievements</h2>
+            <div id="achievements-list">
+                <!-- Populated via JS -->
+            </div>
+            <button id="close-achievements" class="modal-btn" style="margin-top: 20px;">Close</button>
+        </div>
+    </div>
+
+    <!-- Achievement Unlock Toast Container -->
+    <div id="toast-container"></div>
+
+    <div id="app-container">
+        <!-- Main Menu -->
+        <div id="main-menu" class="screen active">
+            <h1 class="glow-title">ZYN HUB</h1>
+            <p class="subtitle">OWNER : korean.mom</p>
+
+            <div class="game-grid">
+                <button class="game-card" data-game="reaction">
+                    <h3>1: Reaction Test</h3>
+                </button>
+                <button class="game-card" data-game="clicker">
+                    <h3>2: Click Speed Test</h3>
+                </button>
+                <button class="game-card" data-game="aim">
+                    <h3>3: Aim Trainer</h3>
+                </button>
+                <button class="game-card" data-game="tictactoe">
+                    <h3>4: Tic Tac Toe</h3>
+                </button>
+            </div>
+
+            <!-- Discord Link -->
+            <a href="https://discord.gg/QYkpUFDPm8" target="_blank" class="discord-link">
+                Join our Discord 🎮
+            </a>
+        </div>
+
+        <!-- Game Screens -->
+        <div id="reaction-screen" class="screen hidden game-container"></div>
+        <div id="clicker-screen" class="screen hidden game-container"></div>
+        <div id="aim-screen" class="screen hidden game-container"></div>
+        <div id="tictactoe-screen" class="screen hidden game-container"></div>
+    </div>
+
+    <script src="main.js"></script>
+    <script src="games/reaction.js"></script>
+    <script src="games/clicker.js"></script>
+    <script src="games/aim.js"></script>
+    <script src="games/tictactoe.js"></script>
+</body>
+</html>
